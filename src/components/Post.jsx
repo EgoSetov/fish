@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Button, InputGroup, Form } from "react-bootstrap"
 
 const Post = (props) => {
 
-	const { post: { id, title, desc, user, comments }, changeIV, IV, addPostComment } = props
+	const { post: { id, title, desc, user, comments}, addPostComment } = props
+
+	const [IV, setIV] = useState('')
 
 	return (
 		<Card>
@@ -28,14 +30,14 @@ const Post = (props) => {
 				<Card.Footer>
 					<InputGroup className="mb-3">
 						<Form.Control
-							value={IV.comment}
-							onChange={changeIV}
+							value={IV}
+							onChange={(e) => setIV(e.target.value) }
 							name="comment"
 							placeholder="Write what you think"
 							aria-label="Write what you think"
 							aria-describedby="basic-addon2"
 						/>
-						<Button onClick={() => addPostComment(id)} variant="outline-success" id="button-addon2">
+						<Button onClick={() => addPostComment(id, IV)} variant="outline-success" id="button-addon2">
 							Send
 						</Button>
 					</InputGroup>

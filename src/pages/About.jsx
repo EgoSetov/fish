@@ -12,17 +12,6 @@ const About = () => {
 	const [posts, setPosts] = useState([])
 	const [modalShow, setmodalShow] = useState(false)
 
-	const [IV, setIV] = useState({
-		comment: ''
-	})
-
-	const changeIV = (e) => {
-		setIV(prev => ({
-			...prev,
-			[e.target.name]: e.target.value
-		}))
-	}
-
 	const { loading, getItems, addItem, addComment } = useFireBaseEvents('posts')
 
 	useEffect(() => {
@@ -52,8 +41,8 @@ const About = () => {
 		}
 	}
 
-	const addPostComment = async (idPost) => {
-		const res = await addComment(idPost, { user: { id: user.id, name: user.email }, comment: IV.comment })
+	const addPostComment = async (idPost, comment) => {
+		const res = await addComment(idPost, { user: { id: user.id, name: user.email }, comment })
 		if (res.status === 'ADDED') {
 			const newPosts = posts.map(post => {
 				if (post.id === idPost) {
@@ -67,10 +56,6 @@ const About = () => {
 				} else return post
 			})
 			setPosts(newPosts)
-			setIV(prev => ({
-				...prev,
-				comment: ''
-			}))
 		}
 	}
 
@@ -88,7 +73,7 @@ const About = () => {
 				<div>
 					<div className="cards">
 						{posts.map(post => (
-							< Post changeIV={changeIV} IV={IV} post={post} key={post.id} addPostComment={addPostComment} />
+							< Post post={post} key={post.id} addPostComment={addPostComment} />
 						))}
 					</div>
 				</div>
