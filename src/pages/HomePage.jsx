@@ -1,20 +1,11 @@
-import { Redirect } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { useAuth } from '../hooks/use-auth';
-import { removeUser } from '../store/slices/userSlice';
+import { Container } from "react-bootstrap";
 
 const Home = () => {
-    const dispatch = useDispatch();
+  return (
+    <Container className="mt-3">
+      <h2>Главная страница</h2>
+    </Container>
+  );
+};
 
-    const {isAuth, email} = useAuth();
-
-    return isAuth ? (
-        <div>
-            <h1>Home</h1>
-        </div>
-    ) : (
-        <Redirect to="/login" />
-    )
-}
-
-export default Home
+export default Home;

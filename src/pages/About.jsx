@@ -1,86 +1,74 @@
-import { useEffect, useState } from "react"
-import { Button, Spinner } from "react-bootstrap"
-import { useSelector } from "react-redux"
-import Post from "../components/Post"
-import { useFireBaseEvents } from "../hooks/use-firebase-events"
-import Modal from '../components/Modal'
+import { useState } from "react";
+import { useEffect } from "react";
+import { Button, Container, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncDeleteAbout, asyncGetAbouts } from "../store/slices/aboutSlice";
+import { showModal } from "../store/slices/modalsSlice";
 
 const About = () => {
+  const dispatch = useDispatch();
 
-	const user = useSelector(state => state.user)
+  const { abouts } = useSelector((state) => state.abouts);
+  const { user } = useSelector((state) => state.user);
 
-	const [posts, setPosts] = useState([])
-	const [modalShow, setmodalShow] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-	const { loading, getItems, addItem, addComment } = useFireBaseEvents('posts')
+  const getAbouts = async () => {
+    setLoading(true);
+    await dispatch(asyncGetAbouts());
+    setLoading(false);
+  };
 
-	useEffect(() => {
-		(async () => {
-			const res = await getItems()
-			if (res?.status === 'SUCCESS') {
-				setPosts(res.items)
-			} else {
-				alert('Не удалось загрузить данные')
-			}
-		})()
-	}, [])
+  const deleteAbout = async (id) => {
+    const resDeleteAbout = await dispatch(asyncDeleteAbout(id));
 
-	const createPost = async (data) => {
-		const {title, desc} = data
-		const res = await addItem({
-			comments: [],
-			desc,
-			title,
-			user: {
-				id: user.id,
-				name: user.email
-			}
-		})
-		if (res.status === 'ADDED') {
-			setPosts(prev => [...prev, res.newItem])
-		}
-	}
+    if (resDeleteAbout.error) return;
 
-	const addPostComment = async (idPost, comment) => {
-		const res = await addComment(idPost, { user: { id: user.id, name: user.email }, comment })
-		if (res.status === 'ADDED') {
-			const newPosts = posts.map(post => {
-				if (post.id === idPost) {
-					return {
-						...post,
-						comments: [
-							...post.comments,
-							res.item
-						]
-					}
-				} else return post
-			})
-			setPosts(newPosts)
-		}
-	}
+    getAbouts();
+  };
 
-	return (
-		<div className="container pageAbout">
-			<div className="pageAbout-title">
-				<h1>About</h1>
-				{user.id ? <Button onClick={() => setmodalShow(true)} variant="success">Добавить</Button> : ''}
-			</div>
-			{loading ?
-				<Spinner animation="border" role="status">
-					<span className="visually-hidden">Loading...</span>
-				</Spinner>
-				:
-				<div>
-					<div className="cards">
-						{posts.map(post => (
-							< Post post={post} key={post.id} addPostComment={addPostComment} />
-						))}
-					</div>
-				</div>
-			}
-			<Modal createPost={createPost} show={modalShow} setmodalShow={setmodalShow} />
-		</div>
-	)
-}
+  useEffect(() => {
+    getAbouts();
+  }, []);
 
-export default About
+  return (
+    <Container className="pt-3">
+      <div className="d-flex gap-3">
+        <h2>О нас</h2>
+        {user && user.type === "admin" && (
+          <Button
+            onClick={() => {
+              dispatch(showModal({ modal: "createAbout", visible: true }));
+            }}
+            variant="success"
+          >
+            Создать
+          </Button>
+        )}
+      </div>
+      {loading ? (
+        <div className="d-flex justify-content-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Загрузка...</span>
+          </Spinner>
+        </div>
+      ) : (
+        <div className="abouts my-3">
+          {abouts.map((about) => (
+            <div className="shadow-none p-3 mb-2 bg-light rounded">
+              <h3 className={about.classesTitle.join(" ")}>{about.title}</h3>
+              <p className={about.classesDescription.join(" ")}>{about.description}</p>
+              {user && user.type === "admin" && (
+                <Button onClick={() => deleteAbout(about.id)} variant="danger">
+                  Удалить
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </Container>
+  );
+};
+
+export default About;
