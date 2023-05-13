@@ -6,7 +6,7 @@ import newsRouter from "./routers/news.router.js";
 import abountRouter from "./routers/about.router.js";
 import cors from "cors";
 import path from "path";
-import { PATH_BUILD, PATH_NEWS, PATH_TEMP, PATH_UPLOADS } from "./utils/path.js";
+import { PATH_BUILD, PATH_PUBLIC, PATH_UPLOADS } from "./utils/path.js";
 dotenv.config();
 
 const app = express();
@@ -14,7 +14,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+console.log(PATH_BUILD);
 app.use("/", express.static(PATH_BUILD));
+
 app.use("/users", userRouter);
 app.use("/news", newsRouter);
 app.use("/about", abountRouter);

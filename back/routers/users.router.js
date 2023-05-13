@@ -55,7 +55,7 @@ userRouter.post(
     const checkEmail = await User.getUserByEmail(body.email);
 
     if (checkEmail) {
-      file && await fse.remove(path.join(PATH_TEMP, file.filename));
+      file && (await fse.remove(path.join(PATH_TEMP, file.filename)));
       return res.status(400).json({
         message: "Аккаунт с такой почтой уже существует",
       });

@@ -4,6 +4,7 @@ import News from "../pages/News";
 import Profile from "../pages/Profile";
 import About from "../pages/About";
 import Home from "../pages/HomePage";
+import Rules from "../pages/Rules";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/rules",
+        element: <Rules />,
       },
       {
         path: "/profile",

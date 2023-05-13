@@ -37,10 +37,13 @@ const Header = () => {
         </Navbar.Brand>
         <Nav className="me-auto d-flex align-items-end">
           <Nav.Link>
-            <Link to="posts">Статьи</Link>
+            <Link to="posts">Форум</Link>
           </Nav.Link>
           <Nav.Link>
             <Link to="about">О нас</Link>
+          </Nav.Link>
+          <Nav.Link>
+            <Link to="rules">Правила</Link>
           </Nav.Link>
         </Nav>
         {isAuth ? (

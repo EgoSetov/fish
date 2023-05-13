@@ -5,6 +5,7 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const PATH_BUILD = path.join(__dirname, "..", "..", "build");
+const PATH_PUBLIC = path.join(__dirname, "..", "..", "public");
 
 const PATH_TEMP = path.join(__dirname, "..", "temp");
 
@@ -14,4 +15,4 @@ const PATH_NEWS = path.join(__dirname, "..", "uploads", "news");
 
 const PATH_UPLOADS = path.join(__dirname, "..", "uploads");
 
-export { PATH_TEMP, PATH_AVATARS, PATH_UPLOADS, PATH_NEWS, PATH_BUILD };
+export { PATH_TEMP, PATH_AVATARS, PATH_UPLOADS, PATH_NEWS, PATH_BUILD, PATH_PUBLIC };

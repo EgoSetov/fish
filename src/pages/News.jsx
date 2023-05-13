@@ -42,7 +42,7 @@ const News = () => {
         {loading || (
           <>
             <div className="py-3">
-              <h2>Стастей {count}</h2>
+              <h2>Обсуждений {count}</h2>
               {isAuth && (
                 <Button
                   onClick={() => {
