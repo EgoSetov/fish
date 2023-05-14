@@ -89,3 +89,14 @@
   background-size: cover;
 }
 
+ul li h6 a{
+  text-decoration: underline;
+  color: black;
+  font-size: 18px;
+  transition: all .2s;
+  
+}
+
+ul li h6 a:hover{
+  color: rgba(0, 0, 0, 0.596);
+}
