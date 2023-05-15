@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Carousel, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncDeleteNews, asyncGetNews, asyncLikeNews } from "../store/slices/newsSlice";
-import noPhoto from "../assets/images/noPhoto.jpg";
+import noPhoto from "../assets/images/no-image.svg";
 import { getFullPath } from "../utils/getFullPath";
 import { showModal } from "../store/slices/modalsSlice";
 

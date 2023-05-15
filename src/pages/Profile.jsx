@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Image, Row, Form, ListGroup, Badge, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Image, Row, Form, ListGroup, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { showModal } from "../store/slices/modalsSlice";
 import { asyncDeleteUser, asyncGetUsers, asyncUpdateUser } from "../store/slices/userSlice";
 import { getFullPath } from "../utils/getFullPath";
-import noPhoto from "../assets/images/noPhoto.jpg";
+import noPhoto from "../assets/images/no-image.svg";
 
 const Profile = () => {
   const dispatch = useDispatch();

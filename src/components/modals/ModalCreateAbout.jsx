@@ -101,7 +101,6 @@ const ModalCreateAbout = () => {
             >
               <option value="text-left">Слева</option>
               <option value="text-center">По центру</option>
-              <option value="text-right">Справа</option>
             </Form.Select>
           </Row>
           <Row>
@@ -142,7 +141,6 @@ const ModalCreateAbout = () => {
             >
               <option value="text-left">Слева</option>
               <option value="text-center">По центру</option>
-              <option value="text-right">Справа</option>
             </Form.Select>
           </Row>
           <Row>
