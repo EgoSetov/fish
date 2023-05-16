@@ -176,10 +176,12 @@ function CardNews({ post, getNews }) {
 
 function Slider({ photos }) {
   return (
-    <Carousel>
-      {photos.map((photo) => (
-        <Carousel.Item className="card-image" style={{ backgroundImage: `url(${photo || noPhoto})` }}></Carousel.Item>
-      ))}
+    <Carousel className="carousel">
+      {photos.map((photo) => {
+        return (
+          <Carousel.Item className="card-image" style={{ backgroundImage: `url(${photo || noPhoto})` }}></Carousel.Item>
+        );
+      })}
     </Carousel>
   );
 }
