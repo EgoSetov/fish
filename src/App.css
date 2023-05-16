@@ -57,7 +57,7 @@
 .card-image{
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   height: 600px;
 }
 
