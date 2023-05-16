@@ -3,9 +3,11 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { showModal } from "../store/slices/modalsSlice";
 
+// * главная страница
 const Home = () => {
   const dispatch = useDispatch();
 
+  // * отрытие модалок
   const openModal = (e, modal) => {
     e.preventDefault();
     dispatch(showModal({ modal, visible: true }));

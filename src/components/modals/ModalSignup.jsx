@@ -1,18 +1,19 @@
-"react-router-dom";
-
 import { useState } from "react";
-import { Button, Modal, Form, Row, InputGroup } from "react-bootstrap";
+import { Button, Modal, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../store/slices/modalsSlice";
 import { asyncSignup } from "../../store/slices/userSlice";
 
+// * модальное окно регистрации в систему
 const ModalSignup = () => {
   const dispatch = useDispatch();
 
+  // * состояние модального окна в глобальном стейте
   const {
     signup: { visible: show },
   } = useSelector((state) => state.modals);
 
+  // * состояния
   const [state, setState] = useState({
     name: "",
     surname: "",
@@ -28,6 +29,7 @@ const ModalSignup = () => {
     }));
   };
 
+  // * изменение аватарки
   const changeAvatar = (file) => {
     if (file === null) {
       setState((prev) => ({
@@ -42,17 +44,22 @@ const ModalSignup = () => {
     }));
   };
 
+  // * закрытие модального окна
   const onHide = () => {
     dispatch(showModal({ modal: "signup", visible: false }));
   };
 
+  // * открытие окна для входа
   const loginAccouunt = () => {
     dispatch(showModal({ modal: "signup", visible: false }));
     dispatch(showModal({ modal: "signin", visible: true }));
   };
 
+  // * запрос на бэк для регистрации
   const onSubmit = async (event) => {
     event.preventDefault();
+
+    // * проверка состояний
     if (!state.email || !state.password || !state.name || !state.surname) return;
 
     const formData = new FormData();
@@ -62,13 +69,14 @@ const ModalSignup = () => {
     formData.append("email", state.email);
     formData.append("password", state.password);
 
+    // * добавление аватарки, если она есть
     if (state.avatar) formData.append("avatar", state.avatar);
 
     const resSignup = await dispatch(asyncSignup(formData));
 
     if (resSignup.error) return;
 
-    dispatch(showModal({ modal: "signup", visible: false }));
+    onHide();
   };
 
   return (

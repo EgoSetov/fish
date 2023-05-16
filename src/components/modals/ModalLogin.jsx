@@ -1,18 +1,19 @@
-"react-router-dom";
-
 import { useState } from "react";
 import { Button, Modal, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../store/slices/modalsSlice";
 import { asyncConnect, asyncLogin } from "../../store/slices/userSlice";
 
+// * модальное окно входа в систему
 const ModalLogin = () => {
   const dispatch = useDispatch();
 
+  // * состояние модального окна в глобальном стейте
   const {
     signin: { visible: show },
   } = useSelector((state) => state.modals);
 
+  // * состояния
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -25,17 +26,22 @@ const ModalLogin = () => {
     }));
   };
 
+  // * закрытие модального окна
   const onHide = () => {
     dispatch(showModal({ modal: "signin", visible: false }));
   };
 
+  // * открытие окна для регистрации
   const createAccouunt = () => {
     dispatch(showModal({ modal: "signin", visible: false }));
     dispatch(showModal({ modal: "signup", visible: true }));
   };
 
+  // * запрос на бэк для входа
   const onSubmit = async (event) => {
     event.preventDefault();
+
+    // * проверка состояний
     if (!state.email || !state.password) return;
 
     const resSignin = await dispatch(
@@ -45,13 +51,15 @@ const ModalLogin = () => {
       })
     );
 
+    // * если ответ пришел с ошибкой, ничего не делаем
     if (resSignin.error) return;
 
     const token = resSignin.payload.token;
 
+    // * получаем данные пользователя
     dispatch(asyncConnect(token));
 
-    dispatch(showModal({ modal: "signin", visible: false }));
+    onHide();
   };
 
   return (

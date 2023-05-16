@@ -22,6 +22,7 @@ function App() {
 
   const modals = useSelector((state) => state.modals);
 
+  // * получение данных пользователя по токену
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -37,6 +38,7 @@ function App() {
     <div className="app">
       <Header />
       <Outlet />
+      {/* модальные окна */}
       <div className="modals">
         {modals.signin.visible && <ModalLogin />}
         {modals.signup.visible && <ModalSignup />}
@@ -45,6 +47,7 @@ function App() {
         {modals.comments.visible && <ModalComments />}
         {modals.createAbout.visible && <ModalCreateAbout />}
       </div>
+      {/* загрузка при получении данных пользователя */}
       {loadin && (
         <div className="loadin">
           <Spinner animation="border" role="status">
@@ -52,6 +55,7 @@ function App() {
           </Spinner>
         </div>
       )}
+      {/* компонент для уведомлений (те которые справа снизу) */}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

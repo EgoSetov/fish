@@ -6,13 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncCreateAbout, asyncGetAbouts } from "../../store/slices/aboutSlice";
 import { showModal } from "../../store/slices/modalsSlice";
 
+// * модальное окно создания/редактирования информации
 const ModalCreateAbout = () => {
   const dispatch = useDispatch();
 
+  // * состояние модального окна в глобальном стейте
   const {
     createAbout: { visible: show },
   } = useSelector((state) => state.modals);
 
+  // * состояние классов для дальнейшейго отображения заголовка и описания
   const [classes, setClasses] = useState({
     title: {
       position: "text-left",
@@ -40,6 +43,7 @@ const ModalCreateAbout = () => {
     dispatch(showModal({ modal: "createAbout", visible: false }));
   };
 
+  // * изменение классов
   const changeClasses = (nameClass, option, value) => {
     setClasses((prev) => ({
       ...prev,
@@ -50,6 +54,7 @@ const ModalCreateAbout = () => {
     }));
   };
 
+  // * запрос на бэк для создания
   const onSubmit = async (event) => {
     event.preventDefault();
     if (!state.title) return;
@@ -66,7 +71,7 @@ const ModalCreateAbout = () => {
       })
     );
 
-    dispatch(showModal({ modal: "createAbout", visible: false }));
+    onHide();
 
     if (resCreateAbunt.error) return;
 

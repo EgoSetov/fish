@@ -5,20 +5,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncDeleteAbout, asyncGetAbouts } from "../store/slices/aboutSlice";
 import { showModal } from "../store/slices/modalsSlice";
 
+// * страница Информации
 const About = () => {
   const dispatch = useDispatch();
 
+  // * получение состаяния из глобального стейта
   const { abouts } = useSelector((state) => state.abouts);
   const { user } = useSelector((state) => state.user);
 
   const [loading, setLoading] = useState(false);
 
+  // * получение информации
   const getAbouts = async () => {
     setLoading(true);
     await dispatch(asyncGetAbouts());
     setLoading(false);
   };
 
+  // * удаление информации
   const deleteAbout = async (id) => {
     const resDeleteAbout = await dispatch(asyncDeleteAbout(id));
 

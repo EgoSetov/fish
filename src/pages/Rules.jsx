@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
 
+// * страница правил
 const Rules = () => {
   return (
     <Container className="mt-3">

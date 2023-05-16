@@ -15,12 +15,14 @@ const Header = () => {
 
   const { isAuth, user } = useSelector((state) => state.user);
 
+  // * открытие модального окна регистрации
   const onSignup = () => {
     dispatch(showModal({ modal: "signin", visible: true }));
   };
 
+  // * выход из системы
   const onSignout = () => {
-    dispatch(signout({ modal: "signin", visible: true }));
+    dispatch(signout());
   };
 
   return (

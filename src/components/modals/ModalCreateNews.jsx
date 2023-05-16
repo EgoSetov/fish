@@ -1,21 +1,27 @@
-"react-router-dom";
-
 import { useEffect, useState } from "react";
-import { Button, Modal, Form, Row, Card } from "react-bootstrap";
+import { Button, Modal, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../store/slices/modalsSlice";
 import { asyncCreateNews, asyncGetNews, asyncUpdateNews } from "../../store/slices/newsSlice";
 import { getFullPath } from "../../utils/getFullPath";
 
-const ModalCreatePost = ({ mode }) => {
+// * модальное окно создания/редактирования поста
+const ModalCreatePost = (props) => {
+  const {
+    mode, // мод модального окна, может быть edit | null
+  } = props;
+
   const dispatch = useDispatch();
 
   const modals = useSelector((state) => state.modals);
 
+  // * данные, которые мы передали вместе с окрытием модального окна
   const modalData = mode === "edit" ? modals.editPost.data : modals.createPost.data;
 
+  // * отображение окна
   const show = mode === "edit" ? modals.editPost.visible : modals.createPost.visible;
 
+  // * название, для дальнейших манипуляция с модальным окном
   const modalName = mode === "edit" ? "editPost" : "createPost";
 
   const [photos, setPhotos] = useState([]);
@@ -32,14 +38,17 @@ const ModalCreatePost = ({ mode }) => {
     }));
   };
 
+  // * закрытие модального окна
   const onHide = () => {
     dispatch(showModal({ modal: modalName, visible: false }));
   };
 
+  // * загрузка изображения
   const uploadPhoto = (files) => {
     setPhotos((prev) => [...prev, ...files]);
   };
 
+  // * удаление изображения
   const deletePhoto = (photo) => {
     if (typeof photo === "object") {
       setPhotos((prev) => prev.filter((p) => p?.name !== photo.name));
@@ -48,6 +57,7 @@ const ModalCreatePost = ({ mode }) => {
     }
   };
 
+  // * получение фотографий
   const getPhoto = (photo) => {
     if (typeof photo === "object") {
       const newPhoto = URL.createObjectURL(photo);
@@ -61,8 +71,11 @@ const ModalCreatePost = ({ mode }) => {
     }
   };
 
+  // * запрос на бэк для создание поста
   const onSubmit = async (event) => {
     event.preventDefault();
+
+    // * проверка состояний
     if (!state.title) return;
 
     const formData = new FormData();
@@ -70,10 +83,12 @@ const ModalCreatePost = ({ mode }) => {
     formData.append("title", state.title);
     formData.append("description", state.description);
 
+    // * если мы редактируем пост, добавялем массив photos, чтобы на бэке было понятно, что бы удалили
     if (mode === "edit") {
       formData.append("photos", JSON.stringify(photos.filter((p) => typeof p === "string")));
     }
 
+    // * если были загружены новый фотографии
     if (photos.length) {
       JSON.stringify(
         photos
@@ -87,8 +102,10 @@ const ModalCreatePost = ({ mode }) => {
     let res = null;
 
     if (mode === "edit") {
+      // * запрос на редактирование
       res = await dispatch(asyncUpdateNews({ newsId: modalData.id, data: formData }));
     } else {
+      // * запрос на создание
       res = await dispatch(asyncCreateNews(formData));
     }
 
@@ -96,9 +113,10 @@ const ModalCreatePost = ({ mode }) => {
 
     await dispatch(asyncGetNews({ page: 1 }));
 
-    dispatch(showModal({ modal: modalName, visible: false }));
+    onHide();
   };
 
+  // * если на передали данные о посте, подставляем фотографии в состояние
   useEffect(() => {
     if (modalData) {
       setPhotos(modalData.photos);

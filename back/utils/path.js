@@ -1,18 +1,14 @@
 import path from "path";
 import * as url from "url";
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url)); // * текущая директория
 
-const PATH_BUILD = path.join(__dirname, "..", "..", "build");
-const PATH_PUBLIC = path.join(__dirname, "..", "..", "public");
+const PATH_TEMP = path.join(__dirname, "..", "temp"); // * директория, куда первоначально загружаются файлы
 
-const PATH_TEMP = path.join(__dirname, "..", "temp");
+const PATH_AVATARS = path.join(__dirname, "..", "uploads", "avatars"); // * директория, где храняться аватарки пользователя
 
-const PATH_AVATARS = path.join(__dirname, "..", "uploads", "avatars");
+const PATH_NEWS = path.join(__dirname, "..", "uploads", "news"); // * директория, где храняться фотографии постов
 
-const PATH_NEWS = path.join(__dirname, "..", "uploads", "news");
+const PATH_UPLOADS = path.join(__dirname, "..", "uploads"); // * директория директорий, где храняться данные
 
-const PATH_UPLOADS = path.join(__dirname, "..", "uploads");
-
-export { PATH_TEMP, PATH_AVATARS, PATH_UPLOADS, PATH_NEWS, PATH_BUILD, PATH_PUBLIC };
+export { PATH_TEMP, PATH_AVATARS, PATH_UPLOADS, PATH_NEWS };

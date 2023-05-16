@@ -6,11 +6,13 @@ import { asyncDeleteUser, asyncGetUsers, asyncUpdateUser } from "../store/slices
 import { getFullPath } from "../utils/getFullPath";
 import noPhoto from "../assets/images/no-image.svg";
 
+// * страница профайла
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
+  // * получение состаяния из глобального стейта
   const { user } = useSelector((state) => state.user);
 
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,7 @@ const Profile = () => {
     }));
   };
 
+  // * изменение аватарки пользователя
   const changeAvatar = (file) => {
     if (file === null) {
       setState((prev) => ({
@@ -48,6 +51,7 @@ const Profile = () => {
     }));
   };
 
+  // * получение аватарки
   const getAvatar = () => {
     if (avatar) {
       if (avatar.includes("blob")) {
@@ -63,6 +67,7 @@ const Profile = () => {
     if (location.pathname === "/profile/admin") return true;
   };
 
+  // * открытие панели администратора с учетом, что открыть ее может только админ
   const getAdminPanel = () => {
     if (isAdminPanel()) {
       navigate("/profile");
@@ -71,6 +76,7 @@ const Profile = () => {
     }
   };
 
+  // * отправка данных не бэк
   const onSubmit = async (event) => {
     event.preventDefault();
     if (!state.email || !state.name || !state.surname) return;
@@ -106,6 +112,8 @@ const Profile = () => {
     }
   }, [user]);
 
+  // * проверка, если пользователь находится на странице панели админа
+  // * то он должен быть админом
   useEffect(() => {
     if (location.pathname === "/profile/admin") {
       if (user && user.type !== "admin") {

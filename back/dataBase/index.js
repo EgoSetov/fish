@@ -5,6 +5,8 @@ import "firebase/compat/firestore";
 import dotenv from "dotenv";
 dotenv.config();
 
+// * подкючение к базе данных firebase
+// * все переменные храняться в файле .env
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,

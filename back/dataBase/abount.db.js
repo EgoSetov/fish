@@ -3,7 +3,9 @@ import { v4 as uuidv4 } from "uuid";
 
 export const ModelAbount = dataBase.collection("abouts");
 
+// * объект, который имеет методы, которые позволят работать с firebase более удобно
 export const Abount = {
+  // * получение всей информации
   async getAbounts() {
     try {
       const model = await ModelAbount.get();
@@ -16,6 +18,7 @@ export const Abount = {
     }
   },
 
+  // * создание  информации
   async createAbount(data) {
     try {
       const id = uuidv4();
@@ -33,6 +36,7 @@ export const Abount = {
     }
   },
 
+  // * изменение всей информации
   async updateAbount(abountId, data) {
     try {
       const abount = ModelAbount.doc(abountId);
@@ -45,6 +49,7 @@ export const Abount = {
     }
   },
 
+  // * удалении всей информации
   async deleteAbount(abountId) {
     try {
       await ModelAbount.doc(abountId).delete();

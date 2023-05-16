@@ -4,7 +4,9 @@ import { ModelComments, ModelNews, News } from "./news.db.js";
 
 export const ModelUsers = dataBase.collection("users");
 
+// * объект, который имеет методы, которые позволят работать с firebase более удобно
 export const User = {
+  // * получение пользователя по его эл почте
   async getUserByEmail(email) {
     try {
       const model = await ModelUsers.where("email", "==", email).get();
@@ -15,6 +17,7 @@ export const User = {
     }
   },
 
+  // * получение пользователя по id
   async getUserById(userId) {
     try {
       const model = await ModelUsers.where("id", "==", userId).get();
@@ -28,6 +31,7 @@ export const User = {
     }
   },
 
+  // * получение пользователей
   async getUsers() {
     try {
       const model = await ModelUsers.get();
@@ -43,6 +47,7 @@ export const User = {
     }
   },
 
+  // * создание пользователя (регистрация)
   async createUser(data) {
     try {
       const id = uuidv4();
@@ -60,6 +65,7 @@ export const User = {
     }
   },
 
+  // * создание пользователя (регистрация)
   async updateUser(userId, data) {
     try {
       const user = ModelUsers.doc(userId);
@@ -72,6 +78,7 @@ export const User = {
     }
   },
 
+  // * удаление пользователя
   async deleteUser(userId) {
     try {
       await ModelUsers.doc(userId).delete();
@@ -89,10 +96,6 @@ export const User = {
 
       // * удаление комментариев пользователя
       const userComments = await News.getCommentsUser(userId);
-
-      console.log(userComments);
-
-      console.log("удалено комментариев пользователя", userComments.length);
 
       await Promise.all(
         userComments.map(async (comment) => {

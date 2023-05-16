@@ -3,9 +3,10 @@ import App from "../App";
 import News from "../pages/News";
 import Profile from "../pages/Profile";
 import About from "../pages/About";
-import Home from "../pages/HomePage";
+import Home from "../pages/Home";
 import Rules from "../pages/Rules";
 
+// * постраничная маршрутизация приложения
 const router = createBrowserRouter([
   {
     path: "/",

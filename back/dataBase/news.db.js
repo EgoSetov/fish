@@ -1,13 +1,14 @@
 import { dataBase } from "./index.js";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid"; // * позволяет генерировать уникальные id
 import { User } from "./users.db.js";
-
-const LIMIT = 10;
 
 export const ModelNews = dataBase.collection("news");
 export const ModelComments = dataBase.collection("comments");
 
+// * объект, который имеет методы, которые позволят работать с firebase более удобно
 export const News = {
+  // * получение всех постов
+  // * creator - переменная, в которую нужно передать id пользователя
   async getNews(page, creator = null) {
     try {
       if (creator) {
@@ -33,9 +34,11 @@ export const News = {
 
       const news = model.docs.map((doc) => doc.data());
 
+      // * расширение постов, путем добавления поля creator
       const newsWithCreator = await Promise.all(
         news.map(async (n) => {
           const newsCreator = n.creator;
+          // * получение пользователя по id
           const user = await User.getUserById(newsCreator);
           return {
             ...n,
@@ -57,6 +60,7 @@ export const News = {
     }
   },
 
+  // * получение поста по id
   async getNewsById(newsId) {
     try {
       const model = await ModelNews.where("id", "==", newsId).get();
@@ -67,6 +71,7 @@ export const News = {
     }
   },
 
+  // * создание поста
   async createNews(data) {
     try {
       const id = uuidv4();
@@ -86,6 +91,7 @@ export const News = {
     }
   },
 
+  // * изменение поста
   async updateNews(newsId, data) {
     try {
       const news = ModelNews.doc(newsId);
@@ -98,6 +104,7 @@ export const News = {
     }
   },
 
+  // * удаление поста
   async deleteNews(newsId) {
     try {
       await ModelNews.doc(newsId).delete();
@@ -115,6 +122,7 @@ export const News = {
     }
   },
 
+  // * лайк поста
   async like(newsId, data) {
     try {
       const news = ModelNews.doc(newsId);
@@ -127,6 +135,7 @@ export const News = {
     }
   },
 
+  // * получение комментарий поста
   async getCommentsNews(newsId, options = {}) {
     try {
       const model = await ModelComments.where("news", "==", newsId).get();
@@ -156,6 +165,7 @@ export const News = {
     }
   },
 
+  // * получение комментариев пользователя
   async getCommentsUser(userId) {
     try {
       const model = await ModelComments.where("creator", "==", userId).get();
@@ -168,6 +178,7 @@ export const News = {
     }
   },
 
+  // * получение комментария поста по id
   async getCommentById(commentId) {
     try {
       const model = await ModelComments.where("id", "==", commentId).get();
@@ -178,6 +189,7 @@ export const News = {
     }
   },
 
+  // * создание комментария к посту
   async createCommentNews(data) {
     try {
       const id = uuidv4();
@@ -195,6 +207,7 @@ export const News = {
     }
   },
 
+  // * удаление комментария
   async deleteComment(commentId) {
     try {
       await ModelComments.doc(commentId).delete();

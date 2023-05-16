@@ -1,19 +1,20 @@
-"react-router-dom";
-
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Modal, Form, Row, Card, FloatingLabel, Spinner } from "react-bootstrap";
+import { Button, Modal, Form, Card, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../../store/slices/modalsSlice";
 import { asyncCreateCommentNews, asyncDeleteCommentNews, asyncGetCommentsNews } from "../../store/slices/newsSlice";
 
+// * модальное окно для комментариев к посту
 const ModalComments = () => {
   const dispatch = useDispatch();
 
   const { comments } = useSelector((state) => state.modals);
 
+  // * отображение окна
   const show = comments.visible;
 
+  // * данные, которые мы передали вместе с окрытием модального окна
   const postData = comments.data;
 
   const [loading, setLoading] = useState(false);
@@ -35,6 +36,7 @@ const ModalComments = () => {
     dispatch(showModal({ modal: "comments", visible: false }));
   };
 
+  // * получение всех комментариев поста
   const getCommentsNews = async () => {
     if (postData) {
       setLoading(true);
@@ -46,9 +48,11 @@ const ModalComments = () => {
     }
   };
 
+  // * запрос на бэк для комментария
   const onSubmit = async (event) => {
     event.preventDefault();
 
+    // * проверка состояний + проверка на пробелы по краям
     if (!state.text.trim()) return;
 
     setLoading(true);
@@ -61,6 +65,7 @@ const ModalComments = () => {
     getCommentsNews();
   };
 
+  // * при входе делаем запрос на получение всех комментариев поста
   useEffect(() => {
     getCommentsNews();
   }, []);

@@ -6,12 +6,14 @@ import noPhoto from "../assets/images/no-image.svg";
 import { getFullPath } from "../utils/getFullPath";
 import { showModal } from "../store/slices/modalsSlice";
 
+// * страница постов
 const News = () => {
   const dispatch = useDispatch();
 
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoadin] = useState(true);
 
+  // * получение состаяния из глобального стейта
   const { news, count } = useSelector((state) => state.news);
   const { isAuth, user } = useSelector((state) => state.user);
 
