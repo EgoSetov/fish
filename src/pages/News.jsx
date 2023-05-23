@@ -15,11 +15,11 @@ const News = () => {
 
   // * получение состаяния из глобального стейта
   const { news, count } = useSelector((state) => state.news);
-  const { isAuth, user } = useSelector((state) => state.user);
+  const { isAuth } = useSelector((state) => state.user);
 
   const getNews = async () => {
     setLoadin(true);
-    await dispatch(asyncGetNews({ page: 1 }));
+    await dispatch(asyncGetNews());
     setLoadin(false);
   };
 

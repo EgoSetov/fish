@@ -180,6 +180,8 @@ userRouter.patch(
     if (userData.avatar === "delete" && user.avatar) {
       await fse.remove(path.join(PATH_UPLOADS, user.avatar));
       userData.avatar = null;
+    } else if (userData.avatar === "delete") {
+      userData.avatar = null;
     }
 
     await User.updateUser(userId, userData);

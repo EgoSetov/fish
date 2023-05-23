@@ -5,7 +5,7 @@ import { $api } from "../../api/api";
 export const asyncGetNews = createAsyncThunk("asyncGetNews", async (data, helpers) => {
   const { rejectWithValue } = helpers;
   try {
-    let url = `/news/get/${data.page}`;
+    let url = `/news/get/1`;
     if (data.creator) {
       url += `/?creator=${data.creator}`;
     }

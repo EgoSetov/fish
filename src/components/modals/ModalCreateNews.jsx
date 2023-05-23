@@ -126,7 +126,7 @@ const ModalCreatePost = (props) => {
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header>
-        <Modal.Title>{mode === "edit" ? "Edit" : "Create"} статья</Modal.Title>
+        <Modal.Title>{mode === "edit" ? "Редактировать" : "Создать"} обсуждение</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={onSubmit}>

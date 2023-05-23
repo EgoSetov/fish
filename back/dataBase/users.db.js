@@ -108,4 +108,4 @@ export const User = {
   },
 };
 
-export const getUsers = async () => {};
+
