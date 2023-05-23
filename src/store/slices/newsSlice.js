@@ -6,7 +6,7 @@ export const asyncGetNews = createAsyncThunk("asyncGetNews", async (data, helper
   const { rejectWithValue } = helpers;
   try {
     let url = `/news/get/1`;
-    if (data.creator) {
+    if (data?.creator) {
       url += `/?creator=${data.creator}`;
     }
     const res = await $api.get(url);
